@@ -13,7 +13,6 @@ import os
 import tempfile
 import tqdm
 import zipfile 
-import shutil
 
 from distutils.spawn import find_executable
 from urllib.parse import urljoin
@@ -43,20 +42,17 @@ JAVA_VERSION_REGEX_UPDATED = re.compile(
 
 def parse_java_version(version_text):
     """Return Java version (major1, major2).
-
     >>> parse_java_version('''java version "1.6.0_65"
     ... Java(TM) SE Runtime Environment (build 1.6.0_65-b14-462-11M4609)
     ... Java HotSpot(TM) 64-Bit Server VM (build 20.65-b04-462, mixed mode))
     ... ''')
     (1, 6)
-
     >>> parse_java_version('''
     ... openjdk version "1.8.0_60"
     ... OpenJDK Runtime Environment (build 1.8.0_60-b27)
     ... OpenJDK 64-Bit Server VM (build 25.60-b23, mixed mode))
     ... ''')
     (1, 8)
-
     """
     match = re.search(JAVA_VERSION_REGEX, version_text) or re.search(JAVA_VERSION_REGEX_UPDATED, version_text) 
     if not match:
@@ -121,17 +117,15 @@ def unzip_file(temp_file, directory_to_extract_to):
 
 def download_zip(url, directory):
     """ Downloads and unzips zip file from `url` to `directory`. """
-    # Download file.
-    source_dir = './'
-    target_dir = directory
-    file_names = os.listdir(source_dir)
-    for file_name in file_names:
-        shutil.move(os.path.join(source_dir, file_name), target_dir)
-    for file_name in file_names:
-        shutil.move(os.path.join(source_dir, file_name), '/root/.cache/language_tool_python')
+    # Unzip file.
+    with open('./LanguageTool-5.7.zip' as f, 'r'):
+        downloaded_file = f
+        f.close()
+    unzip_file(downloaded_file, directory)
+    # Remove the temporary file.
+    os.remove(downloaded_file.name)
     # Tell the user the download path.
-    print('Great success')
-    
+    logger.info('Downloaded {} to {}.'.format(url, directory))
 
 def download_lt():
     download_folder = get_language_tool_download_path()
