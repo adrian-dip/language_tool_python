@@ -118,7 +118,7 @@ def unzip_file(temp_file, directory_to_extract_to):
 def download_zip(url, directory):
     """ Downloads and unzips zip file from `url` to `directory`. """
     # Unzip file.
-    with open('./LanguageTool-5.7.zip' as f, 'r'):
+    with open('./LanguageTool-5.7.zip', 'r') as f:
         downloaded_file = f
         f.close()
     unzip_file(downloaded_file, directory)
