@@ -121,10 +121,9 @@ def unzip_file(temp_file, directory_to_extract_to):
 def download_zip(url, directory):
     """ Downloads and unzips zip file from `url` to `directory`. """
     # Download file.
-    downloaded_file = tempfile.NamedTemporaryFile(suffix='.zip', delete=False)
-    http_get(url, downloaded_file)
-    # Close the file so we can extract it.
-    downloaded_file.close() 
+    with open(' ' , 'r' as f):
+        downloaded_file = f
+        f.close()
     # Extract zip file to path.
     unzip_file(downloaded_file, directory)
     # Remove the temporary file.
