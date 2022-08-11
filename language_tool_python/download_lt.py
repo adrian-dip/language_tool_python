@@ -122,7 +122,11 @@ def unzip_file(temp_file, directory_to_extract_to):
 def download_zip(url, directory):
     """ Downloads and unzips zip file from `url` to `directory`. """
     # Download file.
-    shutil.copytree('../input/languagetool/LanguageTool-5.7', directory) 
+    source_dir = '../input/languagetool/LanguageTool-5.7'
+    target_dir = directory
+    file_names = os.listdir(source_dir)
+    for file_name in file_names:
+        shutil.move(os.path.join(source_dir, file_name), target_dir)
     # Tell the user the download path.
     logger.info('Great success')
 
