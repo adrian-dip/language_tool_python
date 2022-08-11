@@ -13,6 +13,7 @@ import os
 import tempfile
 import tqdm
 import zipfile 
+import shutil
 
 from distutils.spawn import find_executable
 from urllib.parse import urljoin
@@ -121,15 +122,9 @@ def unzip_file(temp_file, directory_to_extract_to):
 def download_zip(url, directory):
     """ Downloads and unzips zip file from `url` to `directory`. """
     # Download file.
-    with open(' ' , 'r' as f):
-        downloaded_file = f
-        f.close()
-    # Extract zip file to path.
-    unzip_file(downloaded_file, directory)
-    # Remove the temporary file.
-    os.remove(downloaded_file.name)
+    shutil.copytree('../input/languagetool/LanguageTool-5.7', directory) 
     # Tell the user the download path.
-    logger.info('Downloaded {} to {}.'.format(url, directory))
+    logger.info('Great success')
 
 def download_lt():
     download_folder = get_language_tool_download_path()
