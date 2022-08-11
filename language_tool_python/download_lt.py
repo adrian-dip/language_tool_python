@@ -127,8 +127,11 @@ def download_zip(url, directory):
     file_names = os.listdir(source_dir)
     for file_name in file_names:
         shutil.move(os.path.join(source_dir, file_name), target_dir)
+    for file_name in file_names:
+        shutil.move(os.path.join(source_dir, file_name), '/root/.cache/language_tool_python')
     # Tell the user the download path.
-    logger.info('Great success')
+    print('Great success')
+    
 
 def download_lt():
     download_folder = get_language_tool_download_path()
